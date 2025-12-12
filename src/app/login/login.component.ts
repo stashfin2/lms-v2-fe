@@ -43,13 +43,8 @@ import { STANDALONE_SHARED_IMPORTS } from 'app/standalone-shared.module';
     LoginFormComponent,
     ResetPasswordComponent,
     TwoFactorAuthenticationComponent,
-    MatList,
-    MatListItem,
-    MatMenuTrigger,
     FooterComponent,
-    FaIconComponent,
-    MatMenu,
-    MatMenuItem
+    FaIconComponent
   ]
 })
 export class LoginComponent implements OnInit, OnDestroy {
