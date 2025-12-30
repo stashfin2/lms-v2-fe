@@ -1,4 +1,4 @@
-namespace: fineract
+namespace: prod
 deployment_name: lms-v2
 
 replicaCount: 1
