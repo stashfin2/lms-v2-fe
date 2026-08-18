@@ -6,6 +6,14 @@ pipeline {
     // triggers {
     //     pollSCM('H/5 * * * *')
     // }
+    parameters {
+        string(
+            name: 'JIRA_TICKET_NUMBER',
+            defaultValue: 'LMS-V2-FE-123',
+            description: 'Enter JIRA Ticket Number or JIRA Link'
+        )
+    }
+
     environment {
         AWS_REGION = 'ap-south-1'
         ECR_REPO = '331916247734.dkr.ecr.ap-south-1.amazonaws.com/'
@@ -20,7 +28,7 @@ pipeline {
                 container('dind'){
                     script {
                         withCredentials([usernamePassword(credentialsId: "stashfin2-github-jenkins-integrate", usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_APP_TOKEN')]) {
-                            sh "rm -rf infraverse && git clone https://${GITHUB_APP_ID}:${GITHUB_APP_TOKEN}@github.com/stashfin2/infraverse.git"
+                            sh "rm -rf infraverse && git clone -b akara-prod-pipeline https://${GITHUB_APP_ID}:${GITHUB_APP_TOKEN}@github.com/stashfin2/infraverse.git"
                         }
                         sh 'ls -l infraverse'
                     }
@@ -32,7 +40,7 @@ pipeline {
                 container('dind') {
                     script {
                         infra = load "${env.WORKSPACE}/infraverse/Jenkinsfile.groovy"
-                        infra.executePipeline()
+                        infra.executePipeline(params.JIRA_TICKET_NUMBER)
                     }
                 }
             }
